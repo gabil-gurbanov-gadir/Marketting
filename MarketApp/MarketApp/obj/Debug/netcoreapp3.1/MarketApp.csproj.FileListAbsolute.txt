@@ -1,0 +1,16 @@
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\MarketApp.exe
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\MarketApp.deps.json
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\MarketApp.runtimeconfig.json
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\MarketApp.runtimeconfig.dev.json
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\MarketApp.dll
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\MarketApp.pdb
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.csproj.AssemblyReference.cache
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.AssemblyInfoInputs.cache
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.AssemblyInfo.cs
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.csproj.CoreCompileInputs.cache
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.dll
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.pdb
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.genruntimeconfig.cache
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\ConsoleTables.dll
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\bin\Debug\netcoreapp3.1\EasyConsole.dll
+E:\Source c#\prjct\ConsoleAppForChinara\MarketApp\MarketApp\obj\Debug\netcoreapp3.1\MarketApp.csproj.CopyComplete
