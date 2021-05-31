@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Source c#\\prjct\\ToPush\\Marketting\\MarketApp\\MarketApp\\MarketApp.csproj": {}
+    "E:\\Source c#\\prjct\\ConsoleAppForChinara\\MarketApp\\MarketApp\\MarketApp.csproj": {}
   },
   "projects": {
-    "E:\\Source c#\\prjct\\ToPush\\Marketting\\MarketApp\\MarketApp\\MarketApp.csproj": {
+    "E:\\Source c#\\prjct\\ConsoleAppForChinara\\MarketApp\\MarketApp\\MarketApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Source c#\\prjct\\ToPush\\Marketting\\MarketApp\\MarketApp\\MarketApp.csproj",
+        "projectUniqueName": "E:\\Source c#\\prjct\\ConsoleAppForChinara\\MarketApp\\MarketApp\\MarketApp.csproj",
         "projectName": "MarketApp",
-        "projectPath": "E:\\Source c#\\prjct\\ToPush\\Marketting\\MarketApp\\MarketApp\\MarketApp.csproj",
+        "projectPath": "E:\\Source c#\\prjct\\ConsoleAppForChinara\\MarketApp\\MarketApp\\MarketApp.csproj",
         "packagesPath": "C:\\Users\\Q.QabilQ\\.nuget\\packages\\",
-        "outputPath": "E:\\Source c#\\prjct\\ToPush\\Marketting\\MarketApp\\MarketApp\\obj\\",
+        "outputPath": "E:\\Source c#\\prjct\\ConsoleAppForChinara\\MarketApp\\MarketApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Q.QabilQ\\AppData\\Roaming\\NuGet\\NuGet.Config",
