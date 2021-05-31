@@ -10,6 +10,7 @@ namespace MarketApp
             int selection;
             Console.WriteLine("================================================================");
             Console.WriteLine("======================   Market Tedbiqi   ======================");
+
             do
             {
                 Console.WriteLine("================================================================");
@@ -19,7 +20,6 @@ namespace MarketApp
                 Console.WriteLine("  2. Satislar uzerinde emeliyyat aparmaq");
                 Console.WriteLine("  3. Sistemden cixmaq");
                 Console.WriteLine("----------------------------------------------------------------");
-
                 Console.Write(" "); int.TryParse(Console.ReadLine(), out selection);
 
                 switch (selection)
@@ -27,7 +27,7 @@ namespace MarketApp
                     case 1:
                         int productSelection;
                         do
-                        {
+                        {                            
                             Console.WriteLine("================================================================");
                             Console.WriteLine("     Mehsullar uzerinde emeliyyatlardan birini secin: ");
                             Console.WriteLine("----------------------------------------------------------------");
@@ -59,10 +59,13 @@ namespace MarketApp
                                     MenuService.DisplayProducts();
                                     break;
                                 case 5:
+                                    MenuService.DisplayProductsByCategory();
                                     break;
                                 case 6:
+                                    MenuService.DisplayProductsByRangeOfPrice();
                                     break;
                                 case 7:
+                                    MenuService.DisplaySearchProductsByName();
                                     break;
                                 case 9:
                                     selection = 3;
@@ -72,7 +75,7 @@ namespace MarketApp
                             }
 
                         } while (productSelection != 8 && selection!=3);
-                        
+                        selection = 0;
                         break;
                     case 2:
                         int saleSelection;
@@ -101,19 +104,25 @@ namespace MarketApp
                                     MenuService.AddSaleMenu();
                                     break;
                                 case 2:
+                                    MenuService.ReturnProductFromSale();
                                     break;
                                 case 3:
+                                    MenuService.DeleteSaleMenu();
                                     break;
                                 case 4:
                                     MenuService.DisplaySales();
                                     break;
                                 case 5:
+                                    MenuService.DisplaySalesByRangeOfDate();
                                     break;
                                 case 6:
+                                    MenuService.DisplaySalesByRangeOfTotalPrice();
                                     break;
                                 case 7:
+                                    MenuService.DisplaySalesByDate();
                                     break;
                                 case 8:
+                                    MenuService.DisplaySaleByNo();
                                     break;
                                 case 10:
                                     selection = 3;
@@ -122,7 +131,7 @@ namespace MarketApp
                                     break;
                             }
 
-                        } while (saleSelection != 8 && selection != 3);
+                        } while (saleSelection != 9 && selection != 3);
                         break;
                     default:
                         break;

@@ -30,7 +30,7 @@ namespace MarketApp.Data.Common
 
         void AddSale();
 
-        void ReturnProductFromSale(int saleNo, int codeProduct, int returnCount);
+        void ReturnProductFromSale(int saleNo, int productCode, int returnCount);
 
         void DeleteSale(int saleNo);
 

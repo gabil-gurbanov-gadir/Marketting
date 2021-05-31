@@ -47,7 +47,7 @@ namespace MarketApp.Services
                 throw new ArgumentOutOfRangeException("countProduct");
             }
 
-            int productIndex = FindProductIndexByCode(name);
+            int productIndex = FindProductIndex(name);
 
             if (productIndex != -1)
             {
@@ -68,24 +68,9 @@ namespace MarketApp.Services
                 _products.Add(product);
             }
         }
-
-        public void DeleteProduct(int code)
-        {
-            if (code <= 0)
-                throw new ArgumentOutOfRangeException();
-
-            int index = FindProductIndexByCode(code);
-
-            if (index == -1)
-                throw new KeyNotFoundException();
-
-            _products.RemoveAt(index);
-
-        }
-
         public void EditProduct(int code, string newName, double newPrice, int newCount, ProductCategories newCategory)
         {
-            if (code<=0)
+            if (code <= 0)
             {
                 throw new ArgumentOutOfRangeException("code");
             }
@@ -105,7 +90,7 @@ namespace MarketApp.Services
                 throw new ArgumentOutOfRangeException("newCount");
             }
 
-            int productIndex = FindProductIndexByCode(code);
+            int productIndex = FindProductIndex(code);
 
             if (productIndex == -1)
                 throw new KeyNotFoundException();
@@ -114,39 +99,46 @@ namespace MarketApp.Services
             _products[productIndex].Price = newPrice;
             _products[productIndex].Count = newCount;
         }
+        public void DeleteProduct(int code)
+        {
+            if (code <= 0)
+                throw new ArgumentOutOfRangeException();
 
+            int index = FindProductIndex(code);
+
+            if (index == -1)
+                throw new KeyNotFoundException();
+
+            _products.RemoveAt(index);
+
+        }
         public List<Product> ProductsByCategories(ProductCategories category)
         {
             List<Product> products = _products.FindAll(p => p.Category == category);
 
             return products;
         }
-
         public List<Product> ProductsByRangeOfPrice(double minPrice, double maxPrice)
         {
-            if (minPrice<=0)
-            {
+            if (minPrice<0)
                 throw new ArgumentOutOfRangeException("minPrice");
-            }
 
             if (maxPrice <= 0)
-            {
                 throw new ArgumentOutOfRangeException("maxPrice");
-            }
+
+            if (minPrice > maxPrice)
+                throw new ArgumentOutOfRangeException();
 
             List<Product> products = _products.FindAll(p=> p.Price>=minPrice&&p.Price<=maxPrice);
 
             return products;
         }
-
         public List<Product> SearchProductsByName(string name)
         {
             if (string.IsNullOrEmpty(name))
-            {
                 throw new ArgumentNullException("name");
-            }
-
-            List<Product> products = _products.FindAll(p=> p.Name.Contains(name));
+            
+            List<Product> products = _products.FindAll(p=> p.Name.ToUpper().Contains(name.ToUpper()));
 
             return products;
         }
@@ -180,109 +172,136 @@ namespace MarketApp.Services
             _saleItems.Clear();
 
         }
+        public void ReturnProductFromSale(int saleNo, int productCode, int returnCount)
+        {
+            if (saleNo <= 0)
+                throw new ArgumentOutOfRangeException("saleNo");
+
+            if (productCode <= 0)
+                throw new ArgumentOutOfRangeException("codeProduct");
+
+            if (returnCount <= 0)
+                throw new ArgumentOutOfRangeException("returnCount");
+
+            int saleIndex = FindSaleIndex(saleNo);
+
+            if (saleIndex == -1)
+                throw new KeyNotFoundException();
+
+            int saleItemIndex = FindSaleItemIndex(saleIndex, productCode);
+
+            if (saleItemIndex == -1)
+                throw new KeyNotFoundException();
+
+            int saleItemSaleCount = GetSaleCountOfSaleItem(saleIndex, saleItemIndex);
+
+            if (saleItemSaleCount < returnCount)
+                throw new ArgumentOutOfRangeException();
+
+            if (saleItemSaleCount == returnCount)
+                _sales[saleIndex].SaleItems.RemoveAt(saleItemIndex);
+
+            _sales[saleIndex].SaleItems[saleItemIndex].SaleCount -= returnCount;
+
+            _sales[saleIndex].TotalPrice -= _sales[saleIndex].SaleItems[saleItemIndex].Product.Price * returnCount;
+
+            int productIndex = FindProductIndex(productCode);
+
+            if (productIndex != -1)
+                _products[productIndex].Count += returnCount;
+
+        }
         public void DeleteSale(int saleNo)
         {
             if (saleNo <= 0)
-            {
                 throw new ArgumentOutOfRangeException("saleNo");
-            }           
 
-            Sale sale = _sales.Find(s => s.No == saleNo);
+            int saleIndex = FindSaleIndex(saleNo);
 
-            if (sale == null)
-                throw new ArgumentNullException();
+            if (saleIndex == -1)
+                throw new KeyNotFoundException();
 
-            foreach (var item in sale.SaleItems)
+            int productIndex;
+
+            foreach (var item in _sales[saleIndex].SaleItems)
             {
-                item.Product.Count += item.SaleCount;
+                productIndex = _products.FindIndex(p => p.Code == item.Product.Code);
+
+                if (productIndex != -1)
+                {
+                    _products[productIndex].Count += item.SaleCount;
+                }
             }
 
-            _sales.Remove(sale);
-        }
-        public Sale SaleByNo(int saleNo)
-        {
-            if (saleNo <= 0)
-            {
-                throw new ArgumentOutOfRangeException("saleNo");
-            }
-
-            Sale sale = _sales.Find(s => s.No == saleNo);
-            return sale;
-        }
-        
-        public List<Sale> SalesByDate(DateTime date)
-        {
-            List<Sale> sales = _sales.FindAll(s => s.SaleDate == date);
-
-            return sales;
+            _sales.RemoveAt(saleIndex);
         }
         public List<Sale> SalesByRangeOfDate(DateTime start, DateTime end)
         {
-            List<Sale> sales = _sales.FindAll(s => s.SaleDate >= start&& s.SaleDate<=end);
+            if (start > end)
+                throw new ArgumentOutOfRangeException();
+
+            List<Sale> sales = _sales.FindAll(s => s.SaleDate >= start && s.SaleDate <= end);
+
+            if (sales.Count == 0)
+                throw new ArgumentNullException();
 
             return sales;
         }
         public List<Sale> SalesByRangeOfTotalPrice(double min, double max)
         {
             if (min <= 0)
-            {
                 throw new ArgumentOutOfRangeException("min");
-            }
 
             if (max <= 0)
-            {
                 throw new ArgumentOutOfRangeException("max");
-            }
 
-            List<Sale> sales = _sales.FindAll(s => s.TotalPrice >= min && s.TotalPrice<=max);
+            List<Sale> sales = _sales.FindAll(s => s.TotalPrice >= min && s.TotalPrice <= max);
+
+            if (sales.Count == 0)
+                throw new ArgumentNullException();
 
             return sales;
         }
-        public void ReturnProductFromSale(int saleNo, int codeProduct, int returnCount)
+        public List<Sale> SalesByDate(DateTime date)
+        {
+            List<Sale> sales = _sales.FindAll(s => s.SaleDate.ToString("dd-MM-yyyy") == date.ToString("dd-MM-yyyy"));
+
+            if (sales.Count == 0)
+                throw new ArgumentNullException();
+
+            return sales;
+        }
+        public Sale SaleByNo(int saleNo)
         {
             if (saleNo <= 0)
-            {
                 throw new ArgumentOutOfRangeException("saleNo");
-            }
 
-            if (codeProduct <= 0)
-            {
-                throw new ArgumentOutOfRangeException("codeProduct");
-            }
+            int indexSale = _sales.FindIndex(s=> s.No == saleNo);
 
-            if (returnCount <= 0)
-            {
-                throw new ArgumentOutOfRangeException("returnCount");
-            }
+            if (indexSale == -1)
+                throw new KeyNotFoundException();
 
-            Sale sale = _sales.Find(s => s.No == saleNo);
-
-            if (sale == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            SaleItem saleItem = sale.SaleItems.Find(sI=> sI.Product.Code == codeProduct);
-
-            if (saleItem == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (saleItem.SaleCount<returnCount)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            saleItem.SaleCount -= returnCount;
-            saleItem.Product.Count += returnCount;
-
+            return _sales[indexSale];
         }
 
         #endregion
 
 
         #region Common 
+
+        public bool HasProductInDepot()
+        {
+            if (_products.Count > 0)
+                return true;
+            return false;
+        }
+
+        public bool HasSaleInDepot()
+        {
+            if (_sales.Count > 0)
+                return true;
+            return false;
+        }
 
         public void AddSaleItems(int productCode, int saleCount)
         {
@@ -293,7 +312,7 @@ namespace MarketApp.Services
             if (saleCount <= 0)
                 throw new ArgumentOutOfRangeException("saleCount");
 
-            int productIndex = FindProductIndexByCode(productCode);
+            int productIndex = FindProductIndex(productCode);
 
             if(productIndex == -1)
                 throw new KeyNotFoundException("productCode");
@@ -323,19 +342,73 @@ namespace MarketApp.Services
             }
         }
 
-        public int FindProductIndexByCode(int productCode)
+        public int FindProductIndex(int productCode)
         {
             return _products.FindIndex(p => p.Code == productCode);
         }
 
-        public int FindProductIndexByCode(string productName)
+        public int FindProductIndex(string productName)
         {
             return _products.FindIndex(p => p.Name == productName);
         }
 
-        public int CountOfProductForSale(int index)
+        public int FindSaleIndex(int saleNo)
+        {
+            return _sales.FindIndex(s=> s.No == saleNo);
+        }
+
+        public int FindSaleItemIndex(int saleIndex, int productCode)
+        {
+            return _sales[saleIndex].SaleItems.FindIndex(sI => sI.Product.Code == productCode);
+        }
+
+        public int GetSaleCountOfSaleItem(int saleIndex, int saleItemIndex)
+        {
+            return _sales[saleIndex].SaleItems[saleItemIndex].SaleCount;
+        }
+
+        public int GetCountOfProductForSale(int index)
         {
             return _products[index].Count;
+        }
+
+        public bool HasSalesRangeOfDate(DateTime start, DateTime end)
+        {
+            List<Sale> sales = _sales.FindAll(s => s.SaleDate >= start && s.SaleDate <= end);
+            if (sales.Count != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasSalesByDate(DateTime date)
+        {
+            List<Sale> sales = _sales.FindAll(s => s.SaleDate.ToString("dd-MM-yyyy") == date.ToString("dd-MM-yyyy"));
+
+            if (sales.Count != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasSalesRangeOfTotalPrice(double min, double max)
+        {
+            List<Sale> sales = _sales.FindAll(s => s.TotalPrice >= min && s.TotalPrice <= max);
+
+            if (sales.Count != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public string GetProductNameByIndex(int index)
+        {
+            return _products[index].Name;
         }
 
         #endregion

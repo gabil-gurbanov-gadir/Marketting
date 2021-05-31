@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KbEou2iYdTWCQzusUetxoBECZ8EqhxGQ2f5J25SRbx3Eg1fvb4jirPcs0NGcFZgZe7luOjB9CyUL5NaFvC8iSg==",
+  "dgSpecHash": "Xl8FhxMbq3XMdZRnaBFhHliNGNKGNorMqdMfEk70SIiihKe0Y1exdB5jg82K1KB+FNyowFAbsDDNTh3CiKc10Q==",
   "success": true,
-  "projectFilePath": "E:\\Source c#\\prjct\\ConsoleAppForChinara\\MarketApp\\MarketApp\\MarketApp.csproj",
+  "projectFilePath": "E:\\Source c#\\prjct\\ToPush\\Marketting\\MarketApp\\MarketApp\\MarketApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Q.QabilQ\\.nuget\\packages\\consoletables\\2.4.2\\consoletables.2.4.2.nupkg.sha512",
     "C:\\Users\\Q.QabilQ\\.nuget\\packages\\easyconsole\\1.1.0\\easyconsole.1.1.0.nupkg.sha512",
